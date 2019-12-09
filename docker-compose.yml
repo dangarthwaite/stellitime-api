@@ -1,0 +1,15 @@
+version: '3'
+services:
+  app:
+    build: .
+    environment:
+      AWS_ACCESS_KEY_ID: PsuedoKeyId
+      AWS_SECRET_ACCESS_KEY: PsuedoAccessKey
+      AWS_DEFAULT_REGION: us-east-1
+      DYNAMODB_LOCAL: 1
+    volumes: ["./:/usr/src/app"]
+    depends_on: ["dynamodb"]
+    command: "make test"
+  dynamodb:
+    image: amazon/dynamodb-local
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-inMemory"]
