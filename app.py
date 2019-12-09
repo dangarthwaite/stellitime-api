@@ -16,7 +16,10 @@ COUNTER_TABLE_NAME = 'stellitime-api-counters'
 COUNTER_KEY = os.getenv('COUNTER_KEY', 'demo-key')
 
 region_name = os.getenv('AWS_DEFAULT_REGION', 'us-east-1')
-dynamodb = boto3.resource('dynamodb', region_name=region_name)
+if os.getenv('DYNAMODB_LOCAL'):
+    dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
+else:
+    dynamodb = boto3.resource('dynamodb', region_name=region_name)
 counter_table = dynamodb.Table(COUNTER_TABLE_NAME)
 
 
