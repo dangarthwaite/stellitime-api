@@ -42,4 +42,22 @@ Type `make all` to:
     (colorization courtesy of `jq`)
 </div>
 
+## Local development
 
+Start a local dynamodb server in docker with
+
+    make start-dynamodb
+
+Note: Can be stopped with make stop-dynamodb
+
+Before making a Pull Request develops can run:
+
+    make clean-room-test
+
+This is the same command the CI/CD server uses to run unit tests.
+
+## Deployment
+
+Set your AWS_PROFILE to the desired environment and run:
+
+    make deploy_dynamodb_table
