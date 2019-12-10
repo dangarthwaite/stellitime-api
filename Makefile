@@ -3,14 +3,15 @@ COUNTER_STACK_NAME=$(COUNTER_TABLE_NAME)-stack
 AWS_DEFAULT_REGION=us-east-1
 
 test:
-	@DYNAMODB_LOCAL=1 python -m unittest --locals --verbose
+	@DYNAMODB_LOCAL=1 python -m unittest --locals --verbose tests
 
-clean-room-test:
-	docker-compose up --exit-code-from app
+ci-test: start-dynamodb
+	docker-compose up --build --abort-on-container-exit --exit-code-from app app
+	docker-compose down
 
 start-dynamodb:
 	docker-compose up -d dynamodb
-	DYNAMODB_LOCAL=1 aws dynamodb create-table \
+	aws dynamodb create-table \
 		--table-name  stellitime-api-counters \
 		--attribute-definitions AttributeName=id,AttributeType=S \
 		--key-schema AttributeName=id,KeyType=HASH \

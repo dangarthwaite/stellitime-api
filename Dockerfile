@@ -10,4 +10,3 @@ ENV AWS_DEFAULT_REGION us-east-1
 ENV DYNAMODB_LOCAL 1
 
 COPY . .
-RUN make test
